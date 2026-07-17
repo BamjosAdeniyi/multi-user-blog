@@ -19,9 +19,9 @@ class Post extends Model
         'published_at',
     ];
     
-    public fucntion post(): BelongsTo
+    public function user(): BelongsTo
     {
-        return $this->belongsTo(User:class);
+        return $this->belongsTo(User::class);
     }
 }
 
