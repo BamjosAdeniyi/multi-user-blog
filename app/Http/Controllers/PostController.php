@@ -54,7 +54,7 @@ class PostController extends Controller
 
         auth()->user()->posts()->create($validated);
 
-        return redirect()->route('posts.index');
+        return redirect()->route('posts.show', $post)->with('success', 'Post created successfully.');
     }
 
     /**
@@ -99,7 +99,7 @@ class PostController extends Controller
 
         $post->update($validated);
 
-        return redirect()->route('posts.show', $post);
+        return redirect()->route('posts.show', $post)->with('success', 'Post updated successfully.');
     }
 
     /**
@@ -112,7 +112,7 @@ class PostController extends Controller
 
         $post->delete();
 
-        return redirect()->route('posts.index');
+        return redirect()->route('posts.mine')->with('success', 'Post created successfully.');
     }
 
     public function publish(Post $post)
@@ -124,7 +124,7 @@ class PostController extends Controller
         ]);
 
         return redirect()
-            ->route('posts.show', $post)
+            ->route('posts.mine', $post)
             ->with('success', 'Post published successfully.');
     }
 
