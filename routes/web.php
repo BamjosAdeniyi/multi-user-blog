@@ -15,7 +15,7 @@ Route::get('/my-posts', [PostController::class, 'myPosts'])
 
 // An extra route for publishing
 Route::patch('posts/{post}/publish', [PostController::class, 'publish'])
-        ->middleware('auth')
+        ->middleware(['auth', 'verified'])
         ->name('posts.publish');
 
 Route::patch('/posts/{post}/unpublish', [PostController::class, 'unpublish'])
