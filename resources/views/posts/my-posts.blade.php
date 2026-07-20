@@ -22,7 +22,7 @@
             <div class="p-6 bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
 
-                    <div class="flex flex-wrap gap-3 mb-6">
+                    <div class="flex gap-3 mb-6">
 
                         <a href="{{ route('posts.mine') }}"
                             class="px-4 py-2 rounded-xl border

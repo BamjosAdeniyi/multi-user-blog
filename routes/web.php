@@ -4,9 +4,9 @@ use App\Http\Controllers\PostController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
-// Route::get('/', function () {
-//     return view('welcome');
-// });
+Route::get('/', function () {
+    return view('welcome');
+});
 
 // Route for showing user's post: Post Dashboard
 Route::get('/my-posts', [PostController::class, 'myPosts'])
