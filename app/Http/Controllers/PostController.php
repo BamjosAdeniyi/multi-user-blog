@@ -13,6 +13,13 @@ class PostController extends Controller
     public function index()
     {
         //
+        $post = auth()
+            ->user()
+            ->posts()
+            ->latest()
+            ->paginate(10);
+
+        return view('posts.index', compact('posts'));
     }
 
     /**
@@ -29,6 +36,15 @@ class PostController extends Controller
     public function store(Request $request)
     {
         //
+        $validate = $request->validate([
+            'title' => ['required', 'max:255'],
+            'excerpt' => ['required'],
+            'body' => ['required'],
+        ]);
+
+        auth()->user()->post()->create($validate);
+
+        return redirect()->route('posts.index');
     }
 
     /**
