@@ -22,9 +22,30 @@ class PostController extends Controller
 
         // To display posts created by all users on the platform and not just the post by the signed in user
         $posts = Post::with('user')
-            ->whereNotNull('published_at')
-            ->latest()
-            ->paginate(10);
+            ->whereNotNull('published_at');
+
+        if ($search = request('search')) {
+            $posts->where('title', 'like', "%{$search}%")
+                    ->orWhere('body', 'like', "%{$search}%")
+                    ->orWhere('body', 'like', "%{$search}%");
+        }
+
+        switch (request('sort')) {
+            case 'oldest':
+                $posts->oldest();
+                break;
+            case 'title_asc':
+                $posts->orderBy('title');
+                break;
+            case 'title_desc':
+                $posts->orderByDesc('title');
+                break;
+            default:
+                $posts->latest();
+                break;
+        }
+
+        $posts = $posts->latest()->paginate(10)->withQueryString();
 
         return view('posts.index', compact('posts'));
     }
@@ -86,7 +107,6 @@ class PostController extends Controller
      */
     public function update(Request $request, Post $post)
     {
-        // Using policy for authorization to update post
         $this->authorize('update', $post);
 
         $validated = $request->validate([
@@ -95,11 +115,29 @@ class PostController extends Controller
             'body' => ['required'],
         ]);
 
-        $validated['slug'] = Str::slug($validated['title']);
+        $baseSlug = Str::slug($validated['title']);
+
+        $slug = $baseSlug;
+
+        $count = 1;
+
+        while (
+            Post::where('slug', $slug)
+                ->where('id', '!=', $post->id)
+                ->exists()
+        ) {
+            $count++;
+
+            $slug = $baseSlug.'-'.$count;
+        }
+
+        $validated['slug'] = $slug;
 
         $post->update($validated);
 
-        return redirect()->route('posts.show', $post)->with('success', 'Post updated successfully.');
+        return redirect()
+            ->route('posts.show', $post)
+            ->with('success', 'Post updated successfully.');
     }
 
     /**
