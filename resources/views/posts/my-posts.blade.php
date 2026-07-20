@@ -22,34 +22,36 @@
             <div class="p-6 bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
 
-                    <div class="bg-white border border-gray-200 rounded-2xl p-6">
-                        <p class="text-sm text-gray-500">
-                            All Posts
-                        </p>
+                    <div class="flex flex-wrap gap-3 mb-6">
 
-                        <p class="text-3xl font-semibold mt-2">
-                            {{ $allCount }}
-                        </p>
-                    </div>
+                        <a href="{{ route('posts.mine') }}"
+                            class="px-4 py-2 rounded-xl border
+                                {{ !request('status') ? 'bg-black text-white border-black' : 'bg-white text-gray-700 border-gray-300' }}">
 
-                    <div class="bg-white border border-gray-200 rounded-2xl p-6">
-                        <p class="text-sm text-gray-500">
-                            Published
-                        </p>
+                            All ({{ $allCount }})
 
-                        <p class="text-3xl font-semibold mt-2">
-                            {{ $publishedCount }}
-                        </p>
-                    </div>
+                        </a>
 
-                    <div class="bg-white border border-gray-200 rounded-2xl p-6">
-                        <p class="text-sm text-gray-500">
-                            Drafts
-                        </p>
+                        <a href="{{ route('posts.mine', ['status' => 'published']) }}"
+                            class="px-4 py-2 pr-2 rounded-xl border
+                                {{ request('status') === 'published'
+                                    ? 'bg-black text-white border-black'
+                                    : 'bg-white text-gray-700 border-gray-300' }}">
 
-                        <p class="text-3xl font-semibold mt-2">
-                            {{ $draftCount }}
-                        </p>
+                            Published ({{ $publishedCount }})
+                            <span class="inline-block w-3 h-3 bg-green-500 rounded-full mx-2"></span>
+                        </a>
+
+                        <a href="{{ route('posts.mine', ['status' => 'draft']) }}"
+                            class="px-4 py-2 pr-2 rounded-xl border
+                                {{ request('status') === 'draft'
+                                    ? 'bg-black text-white border-black'
+                                    : 'bg-white text-gray-700 border-gray-300' }}">
+
+                            Drafts ({{ $draftCount }})
+                            <span class="inline-block w-3 h-3 bg-gray-500 rounded-full mx-2"></span>
+                        </a>
+
                     </div>
 
                 </div>
@@ -84,6 +86,11 @@
                                 {{-- <a href="{{ route('posts.show', $post) }}"> --}}
                                 <h2 class="text-xl font-semibold text-gray-900">
                                     <a href="{{ route('posts.show', $post) }}">{{ $post->title }}</a>
+                                    @if ($post->isPublished())
+                                        <span class="inline-block w-3 h-3 bg-green-500 rounded-full mx-2"></span>
+                                    @else
+                                        <span class="inline-block w-3 h-3 bg-gray-500 rounded-full mx-2"></span>
+                                    @endif
                                 </h2>
 
                                 <p class="text-gray-600 mt-2">
