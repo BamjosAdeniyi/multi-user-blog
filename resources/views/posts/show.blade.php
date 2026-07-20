@@ -11,6 +11,13 @@
                 <div class="mt-2 text-sm text-gray-500">
                     Created {{ $post->created_at->diffForHumans() }}
                 </div>
+                @can('publish', $post)
+                    @if ($post->isPublished())
+                        <span class="text-sm text-green-700">Published</span>
+                    @else
+                        <span class="text-sm text-gray-700">Draft</span>
+                    @endif
+                @endcan
             </div>
             <div class="flex gap-2 justify-end items-center">
                 {{-- To hide edit button from guest users --}}
@@ -26,12 +33,25 @@
                         onsubmit="return confirm('Are you sure you want to delete this entry?');">
                         @csrf
                         @method('DELETE')
-    
+
                         <button type="submit"
                             class="px-5 py-4 bg-red-600 text-white rounded-xl hover:opacity-90 transition">
                             Delete
                         </button>
                     </form>
+                @endcan
+                @can('publish', $post)
+                    @if (!$post->isPublished())
+                        <form action="{{ route('posts.publish', $post) }}" method="POST">
+                            @csrf
+                            @method('PATCH')
+
+                            <button type="submit"
+                                class="px-5 py-3 bg-black text-white rounded-xl hover:opacity-90 transition">
+                                Publish Post
+                            </button>
+                        </form>
+                    @endif
                 @endcan
             </div>
         </div>

@@ -72,8 +72,11 @@
                 @else
                     <div class="space-y-4">
                         @foreach ($posts as $post)
-                            <div class="bg-white rounded-2xl shadow-sm p-6 hover:shadow-md transition border">
-                                <a href="{{ route('posts.show', $post) }}">
+                            <div class="bg-white rounded-2xl shadow-sm p-6 hover:shadow-md transition hover:border border-gray-500">
+                                {{-- <a href="{{ route('posts.show', $post) }}"> --}}
+                                    <p class="text-gray-600 mt-2">
+                                         {{'@' . $post->user->name }}
+                                    </p>
                                     <h2 class="text-xl font-semibold text-gray-900">
                                         <a href="{{ route('posts.show', $post) }}">{{ $post->title }}</a>
                                     </h2>
@@ -101,7 +104,7 @@
                                             </form>
                                         @endcan
                                     </div>
-                                </a>
+                                {{-- </a> --}}
                             </div>
                         @endforeach
                     </div>

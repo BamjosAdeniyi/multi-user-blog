@@ -45,7 +45,7 @@ class PostPolicy
      */
     public function delete(User $user, Post $post): bool
     {
-        return $user->id === $post->user_id;;
+        return $user->id === $post->user_id;
     }
 
     /**
@@ -62,5 +62,13 @@ class PostPolicy
     public function forceDelete(User $user, Post $post): bool
     {
         return false;
+    }
+
+    /**
+     * Determine whether the user can see unpublish post from others.
+     */
+    public function publish(User $user, Post $post)
+    {
+        return $user->id === $post->user_id;
     }
 }

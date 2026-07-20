@@ -22,6 +22,7 @@ class PostController extends Controller
 
         // To display posts created by all users on the platform and not just the post by the signed in user
         $posts = Post::with('user')
+            ->whereNotNull('published_at')
             ->latest()
             ->paginate(10);
 
@@ -62,6 +63,10 @@ class PostController extends Controller
     public function show(Post $post)
     {
         //
+        if (! $post->isPublished() && auth()->id() !== $post->user_id) {
+            abort(404);
+        }
+
         return view('posts.show', compact('post'));
     }
 
@@ -108,5 +113,18 @@ class PostController extends Controller
         $post->delete();
 
         return redirect()->route('posts.index');
+    }
+
+    public function publish(Post $post)
+    {
+        $this->authorize('publish', $post);
+
+        $post->update([
+            'published_at' => now(),
+        ]);
+
+        return redirect()
+            ->route('posts.show', $post)
+            ->with('success', 'Post published successfully.');
     }
 }

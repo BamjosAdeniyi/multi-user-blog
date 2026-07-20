@@ -8,6 +8,13 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+// An extra route for publishing
+Route::prefix('posts')->group(function () {
+    Route::patch('/posts/{post}/publish', [PostController::class, 'publish'])
+        ->middleware('auth')
+        ->name('posts.publish');
+});
+
 // Resource Route with authentication through middleware
 Route::resource('posts', PostController::class)
     ->middleware('auth');
