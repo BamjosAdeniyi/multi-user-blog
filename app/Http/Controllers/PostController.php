@@ -163,4 +163,17 @@ class PostController extends Controller
             'draftCount'
         ));
     }
+
+    public function unpublish(Post $post)
+    {
+        $this->authorize('unpublish', $post);
+
+        $post->update([
+            'published_at' => null,
+        ]);
+
+        return redirect()
+            ->route('posts.mine')
+            ->with('success', 'Post moved back to drafts.');
+    }
 }

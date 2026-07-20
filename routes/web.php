@@ -18,6 +18,10 @@ Route::patch('posts/{post}/publish', [PostController::class, 'publish'])
         ->middleware('auth')
         ->name('posts.publish');
 
+Route::patch('/posts/{post}/unpublish', [PostController::class, 'unpublish'])
+    ->middleware('auth')
+    ->name('posts.unpublish');
+    
 // Resource Route with authentication through middleware
 Route::resource('posts', PostController::class)
     ->middleware('auth');

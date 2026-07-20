@@ -71,4 +71,9 @@ class PostPolicy
     {
         return $user->id === $post->user_id;
     }
+
+    public function unpublish(User $user, Post $post)
+    {
+        return $user->id === $post->user_id;
+    }
 }

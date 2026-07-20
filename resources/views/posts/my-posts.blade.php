@@ -103,7 +103,7 @@
 
                                 <div class="flex justify-between items-center mt-4 text-sm text-gray-500">
                                     {{ $post->created_at->diffForHumans() }}
-                                    @can('delete', $post)
+                                    {{-- @can('delete', $post)
                                         <form action="{{ route('posts.destroy', $post) }}" method="POST" class="inline">
                                             @csrf
                                             @method('DELETE')
@@ -113,7 +113,54 @@
                                                 Delete
                                             </button>
                                         </form>
-                                    @endcan
+                                    @endcan --}}
+                                    <div class="flex flex-wrap gap-3 mt-4">
+
+                                        <a href="{{ route('posts.show', $post) }}"
+                                            class="text-sm text-gray-600 hover:text-gray-800">
+                                            {{ $post->isPublished() ? 'View' : 'Preview' }}
+                                        </a>
+
+                                        <a href="{{ route('posts.edit', $post) }}"
+                                            class="text-sm text-gray-600 hover:text-gray-800">
+                                            Edit
+                                        </a>
+
+                                        @if (!$post->isPublished())
+                                            <form action="{{ route('posts.publish', $post) }}" method="POST">
+                                                @csrf
+                                                @method('PATCH')
+
+                                                <button type="submit" class="text-sm text-gray-600 hover:text-gray-800"
+                                                    onclick="return confirm('Publish this post?')>
+                                                    Publish
+                                                </button>
+                                            </form>
+@else
+<form action="{{ route('posts.unpublish', $post) }}"
+                                                    method="POST">
+                                                    @csrf
+                                                    @method('PATCH')
+
+                                                    <button type="submit"
+                                                        class="text-sm text-gray-600 hover:text-gray-800"
+                                                        onclick="return confirm('Unpublish this post?')">
+                                                        Unpublish
+                                                    </button>
+                                            </form>
+                                        @endif
+
+                                        <form action="{{ route('posts.destroy', $post) }}" method="POST">
+                                            @csrf
+                                            @method('DELETE')
+
+                                            <button type="submit" class="text-sm text-red-600 hover:text-red-800"
+                                                onclick="return confirm('Delete this entry?')">
+                                                Delete
+                                            </button>
+                                        </form>
+
+                                    </div>
                                 </div>
                                 {{-- </a> --}}
                             </div>
