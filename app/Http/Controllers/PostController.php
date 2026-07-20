@@ -26,7 +26,7 @@ class PostController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create(Post $post)
+    public function create()
     {
         //
         return view('posts.create');
@@ -78,6 +78,18 @@ class PostController extends Controller
     {
         // Using policy for authorization to update post
         $this->authorize('update', $post);
+
+        $validated = $request->validate([
+            'title' => ['required', 'max:255'],
+            'excerpt' => ['required'],
+            'body' => ['required'],
+        ]);
+
+        $validated['slug'] = Str::slug($validated['title']);
+
+        $post->update($validated);
+
+        return redirect()->route('posts.show', $post);
     }
 
     /**

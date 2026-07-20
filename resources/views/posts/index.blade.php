@@ -72,11 +72,10 @@
                 @else
                     <div class="space-y-4">
                         @foreach ($posts as $post)
-                            <div
-                                class="bg-white rounded-2xl shadow-sm p-6 hover:shadow-md transition border">
+                            <div class="bg-white rounded-2xl shadow-sm p-6 hover:shadow-md transition border">
                                 <a href="{{ route('posts.show', $post) }}">
                                     <h2 class="text-xl font-semibold text-gray-900">
-                                        {{ $post->title }}
+                                        <a href="{{ route('posts.show', $post) }}">{{ $post->title }}</a>
                                     </h2>
 
                                     <p class="text-gray-600 mt-2">
@@ -89,16 +88,18 @@
 
                                     <div class="flex justify-between items-center mt-4 text-sm text-gray-500">
                                         {{ $post->created_at->diffForHumans() }}
-                                        <form action="{{ route('posts.destroy', $post) }}" method="POST"
-                                            class="inline">
-                                            @csrf
-                                            @method('DELETE')
+                                        @can('delete', $post)
+                                            <form action="{{ route('posts.destroy', $post) }}" method="POST"
+                                                class="inline">
+                                                @csrf
+                                                @method('DELETE')
 
-                                            <button type="submit" class="text-sm text-red-600 hover:text-red-800"
-                                                onclick="return confirm('Delete this entry?')">
-                                                Delete
-                                            </button>
-                                        </form>
+                                                <button type="submit" class="text-sm text-red-600 hover:text-red-800"
+                                                    onclick="return confirm('Delete this entry?')">
+                                                    Delete
+                                                </button>
+                                            </form>
+                                        @endcan
                                     </div>
                                 </a>
                             </div>

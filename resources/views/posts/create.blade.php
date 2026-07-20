@@ -40,8 +40,8 @@
                             </label>
 
                             <textarea name="excerpt" id="excerpt" rows="5"
-                                class="w-full rounded-xl border border-gray-300 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-black">{{ old('content') }}</textarea>
-                            @error('content')
+                                class="w-full rounded-xl border border-gray-300 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-black">{{ old('excerpt') }}</textarea>
+                            @error('excerpt')
                                 <p class="mt-2 text-sm text-red-600">
                                     {{ $message }}
                                 </p>
@@ -54,8 +54,8 @@
                             </label>
 
                             <textarea name="body" id="body" rows="5"
-                                class="w-full rounded-xl border border-gray-300 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-black">{{ old('content') }}</textarea>
-                            @error('content')
+                                class="w-full rounded-xl border border-gray-300 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-black">{{ old('body') }}</textarea>
+                            @error('body')
                                 <p class="mt-2 text-sm text-red-600">
                                     {{ $message }}
                                 </p>
