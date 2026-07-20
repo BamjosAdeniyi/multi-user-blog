@@ -107,3 +107,43 @@ Planned enhancements for future iterations of this platform include:
 * ❤️ **Likes:** Implement a system for micro-interactions and liking posts.
 * ⏱️ **Reading Time:** Provide algorithmic read-time indicators (e.g., "5 min read").
 * ⭐ **Featured Posts:** Allow administrators to pin prominent content at the top of the feed.
+
+## Getting Started
+
+Clone the project and install the dependencies:
+
+```bash
+composer install
+npm install
+```
+
+Create your environment file:
+
+```bash
+cp .env.example .env
+php artisan key:generate
+```
+
+Run the database migrations:
+
+```bash
+php artisan migrate
+```
+
+Start the development server:
+
+```bash
+php artisan serve
+```
+
+In a separate terminal, start Vite:
+
+```bash
+npm run dev
+```
+
+Then visit:
+
+```text
+http://127.0.0.1:8000/posts
+```
