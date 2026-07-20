@@ -9,12 +9,12 @@ Route::get('/', function () {
 });
 
 // Resource Route with authentication through middleware
-Route::resource('post', PostController::class)
+Route::resource('posts', PostController::class)
     ->middleware('auth');
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+// Route::get('/dashboard', function () {
+//     return view('dashboard');
+// })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

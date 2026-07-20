@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Post;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class PostController extends Controller
 {
@@ -13,7 +14,7 @@ class PostController extends Controller
     public function index()
     {
         //
-        $post = auth()
+        $posts = auth()
             ->user()
             ->posts()
             ->latest()
@@ -25,9 +26,10 @@ class PostController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(Post $post)
     {
         //
+        return view('posts.create');
     }
 
     /**
@@ -36,13 +38,15 @@ class PostController extends Controller
     public function store(Request $request)
     {
         //
-        $validate = $request->validate([
+        $validated = $request->validate([
             'title' => ['required', 'max:255'],
             'excerpt' => ['required'],
             'body' => ['required'],
         ]);
 
-        auth()->user()->post()->create($validate);
+        $validated['slug'] = Str::slug($validated['title']);
+
+        auth()->user()->posts()->create($validated);
 
         return redirect()->route('posts.index');
     }
@@ -53,6 +57,7 @@ class PostController extends Controller
     public function show(Post $post)
     {
         //
+        return view('posts.show', compact('post'));
     }
 
     /**
@@ -60,7 +65,10 @@ class PostController extends Controller
      */
     public function edit(Post $post)
     {
-        //
+        // Using policy for authorization to edit post
+        $this->authorize('update', $post);
+
+        return view('posts.edit', compact('post'));
     }
 
     /**
@@ -68,7 +76,8 @@ class PostController extends Controller
      */
     public function update(Request $request, Post $post)
     {
-        //
+        // Using policy for authorization to update post
+        $this->authorize('update', $post);
     }
 
     /**
@@ -76,6 +85,11 @@ class PostController extends Controller
      */
     public function destroy(Post $post)
     {
-        //
+        // Using policy for authorization to delete post
+        $this->authorize('delete', $post);
+
+        $post->delete();
+
+        return redirect()->route('posts.index');
     }
 }
