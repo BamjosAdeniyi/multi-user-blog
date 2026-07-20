@@ -14,9 +14,14 @@ class PostController extends Controller
     public function index()
     {
         //
-        $posts = auth()
-            ->user()
-            ->posts()
+        // $posts = auth()
+        //     ->user()
+        //     ->posts()
+        //     ->latest()
+        //     ->paginate(10);
+
+        // To display posts created by all users on the platform and not just the post by the signed in user
+        $posts = Post::with('user')
             ->latest()
             ->paginate(10);
 
