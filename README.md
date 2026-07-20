@@ -145,5 +145,5 @@ npm run dev
 Then visit:
 
 ```text
-http://127.0.0.1:8000/posts
+http://127.0.0.1:8000/
 ```
