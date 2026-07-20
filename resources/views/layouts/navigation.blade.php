@@ -12,20 +12,20 @@
 
                 <!-- Navigation Links -->
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                    <x-nav-link :href="route('posts.index')" :active="request()->routeIs('timeline')">
+                    <x-nav-link :href="route('posts.index')" :active="request()->routeIs('posts.index')">
                         {{ __('Timeline') }}
                     </x-nav-link>
                 </div>
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                    <x-nav-link :href="route('posts.create')" :active="request()->routeIs('create-post')">
+                    <x-nav-link :href="route('posts.create')" :active="request()->routeIs('post.create')">
                         {{ __('Create Post') }}
                     </x-nav-link>
                 </div>
-                {{-- <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                    <x-nav-link :href="route('#')" :active="request()->routeIs('draft')">
-                        {{ __('Draft') }}
+                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                    <x-nav-link :href="route('posts.mine')" :active="request()->routeIs('posts.mine')">
+                        {{ __('My Posts') }}
                     </x-nav-link>
-                </div> --}}
+                </div>
             </div>
 
             <!-- Settings Dropdown -->

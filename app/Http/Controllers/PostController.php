@@ -127,4 +127,40 @@ class PostController extends Controller
             ->route('posts.show', $post)
             ->with('success', 'Post published successfully.');
     }
+
+    public function myPosts()
+    {
+        $user = auth()->user();
+
+        $allCount = $user->posts()->count();
+
+        $publishedCount = $user->posts()
+            ->whereNotNull('published_at')
+            ->count();
+
+        $draftCount = $user->posts()
+            ->whereNull('published_at')
+            ->count();
+
+        $query = $user->posts()->latest();
+
+        if (request('status') === 'published') {
+            $query->whereNotNull('published_at');
+        }
+
+        if (request('status') === 'draft') {
+            $query->whereNull('published_at');
+        }
+
+        $posts = $query
+            ->paginate(10)
+            ->withQueryString();
+
+        return view('posts.my-posts', compact(
+            'posts',
+            'allCount',
+            'publishedCount',
+            'draftCount'
+        ));
+    }
 }

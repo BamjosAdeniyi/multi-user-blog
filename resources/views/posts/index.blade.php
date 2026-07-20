@@ -72,7 +72,7 @@
                 @else
                     <div class="space-y-4">
                         @foreach ($posts as $post)
-                            <div class="bg-white rounded-2xl shadow-sm p-6 hover:shadow-md transition hover:border border-gray-500">
+                            <div class="bg-white rounded-2xl shadow-sm p-6 border border-gray-300 hover:shadow-md transition">
                                 {{-- <a href="{{ route('posts.show', $post) }}"> --}}
                                     <p class="text-gray-600 mt-2">
                                          {{'@' . $post->user->name }}

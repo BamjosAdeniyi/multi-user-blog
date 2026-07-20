@@ -4,16 +4,19 @@ use App\Http\Controllers\PostController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return view('welcome');
-});
+// Route::get('/', function () {
+//     return view('welcome');
+// });
+
+// Route for showing user's post: Post Dashboard
+Route::get('/my-posts', [PostController::class, 'myPosts'])
+    ->middleware('auth')
+    ->name('posts.mine');
 
 // An extra route for publishing
-Route::prefix('posts')->group(function () {
-    Route::patch('/posts/{post}/publish', [PostController::class, 'publish'])
+Route::patch('posts/{post}/publish', [PostController::class, 'publish'])
         ->middleware('auth')
         ->name('posts.publish');
-});
 
 // Resource Route with authentication through middleware
 Route::resource('posts', PostController::class)
